@@ -1,4 +1,6 @@
-# pytorch_note
+# a learning note from -- http://pytorch.org/tutorials/beginner/nlp/deep_learning_tutorial.html
+# stuck by the following code
+'''
 class BoWClassifier(nn.Module):  # inheriting from nn.Module!
 
     def __init__(self, num_labels, vocab_size):
@@ -9,15 +11,18 @@ class BoWClassifier(nn.Module):  # inheriting from nn.Module!
 
 NUM_LABELS, VOCAB_SIZE = 2, 10
 model = BoWClassifier(NUM_LABELS, VOCAB_SIZE)
-log_probs = model(autograd.Variable(bow_vector))
+log_probs = model(autograd.Variable(bow_vector))  #how to pass the parameter?
+'''
 
-'1. __init__ and __call__ in python?
-# __init__ in python
+#answer is as the following steps
+#----------------   1    ----------------#
+# __init__ and __call__ in python
+#1.1 __init__ in python
 class foo:
     def __init__(self, a, b, c):
         # ...
 x = foo(1, 2, 3) # __init__
-#__call__ in python
+#1.2 __call__ in python
 class foo:
     def __call__(self, a, b, c):
         # ...
