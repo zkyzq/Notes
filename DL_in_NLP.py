@@ -1,4 +1,4 @@
-# a learning note from -- http://pytorch.org/tutorials/beginner/nlp/deep_learning_tutorial.html
+# learning notes from -- http://pytorch.org/tutorials/beginner/nlp/deep_learning_tutorial.html
 # stuck by the following code
 '''
 class BoWClassifier(nn.Module):  # inheriting from nn.Module!
@@ -11,10 +11,10 @@ class BoWClassifier(nn.Module):  # inheriting from nn.Module!
 
 NUM_LABELS, VOCAB_SIZE = 2, 10
 model = BoWClassifier(NUM_LABELS, VOCAB_SIZE)
-log_probs = model(autograd.Variable(bow_vector))  #how to pass the parameter?
+log_probs = model(autograd.Variable(bow_vector))  ########### how to pass the parameter?
 '''
+#answers are as follows:
 
-#answers as follows
 #----------------   1    ----------------#
 # __init__ and __call__ in python
 
@@ -56,8 +56,7 @@ c: 你好
 b: 200'''
 
 #----------------   3    ----------------#
-
-# nn.Module in pytorch
+# the following codes are the basic nn.Module in pytorch
 # a new nn.Module will inherit the basic nn.Module in pytorch
 # the new nn.Module should override the func. forward() 
 # the new nn.Module will inherit the func. __call__(), so when we call
