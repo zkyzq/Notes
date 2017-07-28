@@ -76,22 +76,21 @@ class LSTMTagger(nn.Module):
     	embeds_char = self.char_embeddings(char)
     	lstm_out, self.hidden_char = self.lstm_char(
             embeds_char.view(len(char), 1, -1), self.hidden_char)
-    	char_level_embeds = hidden_char[0]
+    	char_level_embeds = self.hidden_char[0]
     	return char_level_embeds.view(1,-1)  
 
     def forward(self, input):
     	sentence, char_in = input
     	# word_embeddings at char level 
-    	char_feat = [char_level_feat(char) for char in char_in]
+    	char_feat = [self.char_level_feat(char) for char in char_in]
     	embeds_char_level = torch.cat(char_feat, 0)
     	embeds_word_level = self.word_embeddings(sentence)
     	embeds = torch.cat([embeds_word_level, embeds_char_level], 1)
-
-        lstm_out, self.hidden_word = self.lstm_word(
-            embeds.view(len(sentence), 1, -1), self.hidden_word)
-        tag_space = self.hidden2tag(lstm_out.view(len(sentence), -1))
-        tag_scores = F.log_softmax(tag_space)
-        return tag_scores
+    	lstm_out, self.hidden_word = self.lstm_word(
+    		embeds.view(len(sentence), 1, -1), self.hidden_word)          
+    	tag_space = self.hidden2tag(lstm_out.view(len(sentence), -1))
+    	tag_scores = F.log_softmax(tag_space)
+    	return tag_scores
 
 model = LSTMTagger(EMBEDDING_DIM_CHAR, EMBEDDING_DIM_WORD, HIDDEN_DIM_CHAR, 
 		HIDDEN_DIM_WORD, len(char2ix), len(word2ix), len(tag_to_ix))
@@ -106,7 +105,8 @@ for epoch in range(300):  # again, normally you would NOT do 300 epochs, it is t
 
         # Also, we need to clear out the hidden state of the LSTM,
         # detaching it from its history on the last instance.
-        model.hidden = model.init_hidden()
+        model.hidden_word = model.init_hidden_word()
+        model.hidden_char = model.init_hidden_char()
 
         # Step 2. Get our inputs ready for the network, that is, turn them into
         # Variables of word indices.
@@ -115,7 +115,7 @@ for epoch in range(300):  # again, normally you would NOT do 300 epochs, it is t
         targets = prepare_sequence(tags, tag_to_ix)
 
         # Step 3. Run our forward pass.
-        tag_scores = model(sentence_in, char_in)
+        tag_scores = model((sentence_in, char_in))
 
         # Step 4. Compute the loss, gradients, and update the parameters by
         #  calling optimizer.step()
