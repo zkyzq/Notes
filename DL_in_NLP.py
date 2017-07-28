@@ -47,7 +47,7 @@ def funcD(a, b, *c):
 
 #2.2 带**的参数就是用来接受一个字典
 def funcF(a, **b):
-  print a
+  print 
   for x in b:
     print x + ": " + str(b[x])
 '''调用funcF(100, c='你好', b=200)，执行结果
@@ -70,3 +70,18 @@ def forward(self, *input):
         Should be overriden by all subclasses.
         """
         raise NotImplementedError
+        
+#----------------   4    ----------------#
+# http://pytorch.org/docs/master/_modules/torch/nn/modules/module.html#Module
+# def __call__(self, *input, **kwargs): 
+#   result = self.forward(*input, **kwargs)
+# so in a func. forward() of nn.Module, we must return the final results 
+# as the last line of code
+# or we cannot compute gradients and report errors
+class BoWClassifier(nn.Module):  # inheriting from nn.Module!
+
+    def __init__(self, num_labels, vocab_size):
+        super(BoWClassifier, self).__init__()
+        self.linear = nn.Linear(vocab_size, num_labels)
+    def forward(self, bow_vec):
+        return F.log_softmax(self.linear(bow_vec))
