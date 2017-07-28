@@ -1,3 +1,10 @@
+# one thing to note:
+# we should to zero (h_0, c_0) before we use them
+# there are 2 lstm, so 2 operations of zeroing (line 4-5, line 6 respectively)
+# def char_level_feat(self, char):
+# 	self.hidden_char = self.init_hidden_char()
+# model.hidden_word = model.init_hidden_word()
+
 import torch
 import torch.autograd as autograd
 import torch.nn as nn
@@ -73,12 +80,13 @@ class LSTMTagger(nn.Module):
                 autograd.Variable(torch.zeros(1, 1, self.hidden_dim_word)))
 
     def char_level_feat(self, char):
-    	embeds_char = self.char_embeddings(char)
-    	lstm_out, self.hidden_char = self.lstm_char(
+        self.hidden_char = self.init_hidden_char()
+        embeds_char = self.char_embeddings(char)
+        lstm_out, self.hidden_char = self.lstm_char(
             embeds_char.view(len(char), 1, -1), self.hidden_char)
-    	char_level_embeds = self.hidden_char[0]
-    	return char_level_embeds.view(1,-1)  
-
+        char_level_embeds = self.hidden_char[0]
+        return char_level_embeds.view(1,-1) 
+        
     def forward(self, input):
     	sentence, char_in = input
     	# word_embeddings at char level 
@@ -106,7 +114,7 @@ for epoch in range(300):  # again, normally you would NOT do 300 epochs, it is t
         # Also, we need to clear out the hidden state of the LSTM,
         # detaching it from its history on the last instance.
         model.hidden_word = model.init_hidden_word()
-        model.hidden_char = model.init_hidden_char()
+        
 
         # Step 2. Get our inputs ready for the network, that is, turn them into
         # Variables of word indices.
@@ -120,5 +128,6 @@ for epoch in range(300):  # again, normally you would NOT do 300 epochs, it is t
         # Step 4. Compute the loss, gradients, and update the parameters by
         #  calling optimizer.step()
         loss = loss_function(tag_scores, targets)
+        print(loss)
         loss.backward()
         optimizer.step()
