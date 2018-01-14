@@ -1,0 +1,18 @@
+使用一下任意一个方法即可，需要修改的是：
+结果保存位置result.txt，
+需要执行的脚本python tmp.py，
+需要记录的内容'something to say'
+
+# Method 1 (use logging in python script):
+import logging
+# to file & stream at the same time
+logging.basicConfig(level=logging.INFO, format='%(message)s', filename=
+                    'result.txt')  # to file and default filemode='a'
+logging.getLogger('').addHandler(logging.StreamHandler())  # to stream
+logging.info('something to say')
+
+
+# Method 2 (in terminal):
+python tmp.py 2>&1 | tee -a result.txt
+
+
