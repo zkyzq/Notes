@@ -13,6 +13,6 @@ logging.info('something to say')
 
 
 # Method 2 (in terminal):
-python tmp.py 2>&1 | tee -a result.txt
+python tmp.py |& tee -a result.txt
 
 
