@@ -13,6 +13,9 @@ logging.info('something to say')
 
 
 # Method 2 (in terminal):
+# we need to use logging.info() not print()
+# because print() will print all at the end, not at each epoch
 python tmp.py |& tee -a result.txt
+
 
 
