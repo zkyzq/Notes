@@ -1,0 +1,5 @@
+1.线性组合: p=W[a:b],包括sum，weighted average
+2.增加非线性激活函数（sigmoid ortanh），the nonlinearity al-lows to express a wider range of functions。
+缺点：it is almost certainly too much to expect a single fixed matrix W to be able to capture the meaning combination effects 
+of all natural language operators. Afterall, inside the functiong, we have the same lineartransformation for all possible 
+pairs of word vectors.
