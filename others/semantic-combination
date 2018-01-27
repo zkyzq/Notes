@@ -21,3 +21,7 @@ meaning representations for multi-word phrases.
 两种形式：[a;b]'T[a;b]或者a'Tb
 便于理解可以只看T的一个slice矩阵W，这样每一个slice能够得到结果向量中的一个元素pi，pi = (a'b)W，注意(a'b)是向量之间的外积（可以得到一个矩阵）。
 因此两种形式的区别在于后者只建模向量a,b各维度间的乘积，前者还要建模向量自身内部维度的乘积（写一下外积运算便一目了然）
+interpret each sliceof the tensor as capturing a specific type of composition
+注意：tensor交互用到了乘法，之前的都是线性组合。如果考虑到embedding 维度的独立性，可以简化tensor为对角，即element-wise product.
+
+6. 看看Semantic Compositionality through Recursive Matrix-Vector Spaces related work，特别是quantum  logic 
