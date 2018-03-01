@@ -1,0 +1,15 @@
+# ~/.vimrc
+
+set nu
+colorscheme desert
+
+set ts=4
+set expandtab
+set encoding=utf8
+autocmd FileType php set omnifunc=phpcomplete#CompletePHP
+highlight ExtraWhitespace ctermbg=red guibg=red
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$\| \+\ze\t\+\|\t\+\zs \+/
+set cc=80
+hi ColorColumn ctermbg=cyan guibg=cyan
+nnoremap <F2> :%s/\s\+$//e<CR>
+set fileencodings=uft-8
