@@ -1,0 +1,24 @@
+# ~/.tmux.conf
+
+unbind C-b
+set -g prefix C-a
+
+# bind a reload key
+bind R source-file ~/.tmux.conf ; display-message "Config reloaded.."
+
+bind D source-file ~/.tmux/mylayout
+
+# invoke reattach-to-user-namespace every time a new window/pane opens
+# set-option -g default-command "reattach-to-user-namespace -l zsh"
+
+
+#set-option -g mouse on
+#setw -g mode-keys vi
+setw -g mouse-resize-pane on
+setw -g mouse-select-pane on
+setw -g mouse-select-window on
+setw -g mode-mouse on
+
+#Tmux plugin for copying to system clipboard
+set -g @plugin 'tmux-plugins/tmux-yank'
+bind -t vi-copy y copy-pipe 'xclip -in -selection clipboard'
