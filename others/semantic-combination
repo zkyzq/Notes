@@ -1,3 +1,5 @@
+# ---------      1       ----------
+# 这一部分主要是利用递归神经网络的方式，两两组合最后得到整句的语义
 # 学习语义组合p=f(a,b)
 
 1.线性组合: p=W[a;b],包括sum，weighted average  
@@ -25,3 +27,6 @@ interpret each sliceof the tensor as capturing a specific type of composition
 注意：tensor交互用到了乘法，之前的都是线性组合。如果考虑到embedding 维度的独立性，可以简化tensor为对角，即element-wise product.
 
 6. 看看Semantic Compositionality through Recursive Matrix-Vector Spaces related work，特别是quantum  logic 
+
+# ---------      2       ----------
+# 如果跳出递归的思路，将整句划分为多个子域，每个域是一个矩阵，域之间进行交互
