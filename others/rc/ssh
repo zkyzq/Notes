@@ -1,0 +1,16 @@
+# ~/.ssh/config
+Host 0
+    HostName 172.18.32.75
+    Port 22110
+    User yufeng
+
+Host 1
+    HostName 172.18.32.75
+    Port 22111
+    User yufeng
+
+Host 2
+    HostName 172.18.32.64
+    Port 22
+    User yufeng
+    LocalForward 8888 localhost:8888
