@@ -22,7 +22,7 @@ meaning representations for multi-word phrases.
 5. 改进4的缺点，用一个tensor表示combination的所有参数
 两种形式：[a;b]'T[a;b]或者a'Tb
 便于理解可以只看T的一个slice矩阵W，这样每一个slice能够得到结果向量中的一个元素pi，pi = (a'b)W，这里用(a'b)表示向量之间的外积（可以得到一个矩阵），
-然后对应元素相乘，再加和。。
+然后两个矩阵对应元素相乘，再加和。这其实就是OPNN
 因此两种形式的区别在于后者只建模向量a,b各维度间的乘积，前者还要建模向量自身内部维度的乘积（写一下外积运算便一目了然）
 interpret each slice of the tensor as capturing a specific type of composition
 注意：tensor交互用到了乘法，之前的都是线性组合。如果考虑到embedding 维度的独立性，可以简化tensor为对角，即element-wise product.
