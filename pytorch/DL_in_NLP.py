@@ -27,9 +27,10 @@ x = foo(1, 2, 3) # __init__
 #1.2 __call__ in python
 class foo:
     def __call__(self, a, b, c):
-        # ...
-x = foo()
-x(1, 2, 3) # __call__
+        print(a,b,c)
+
+foo()(1, 2, 3)  # 1 2 3
+
 
 #----------------   2    ----------------#
 # Python中函数的参数定义和可变参数: http://blog.csdn.net/feisan/article/details/1729905
@@ -47,9 +48,9 @@ def funcD(a, b, *c):
 
 #2.2 带**的参数就是用来接受一个字典
 def funcF(a, **b):
-  print 
+  print(a)
   for x in b:
-    print x + ": " + str(b[x])
+    print(x + ": " + str(b[x]))
 '''调用funcF(100, c='你好', b=200)，执行结果
 100
 c: 你好
