@@ -1,6 +1,6 @@
 # one thing to note:
 # we should to zero (h_0, c_0) before we use them
-# there are 2 lstm, so 2 operations of zeroing (line 4-5, line 6 respectively)
+# there are 2 lstm (char and word), so 2 operations of zeroing (line 4-5, line 6 respectively)
 # def char_level_feat(self, char):
 # 	self.hidden_char = self.init_hidden_char()
 # model.hidden_word = model.init_hidden_word()
