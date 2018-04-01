@@ -2,9 +2,9 @@
 # http://pytorch.org/tutorials/beginner/nlp/sequence_models_tutorial.html
 
 # ------------- 1 ------------- #
-# meaning of para. in ()
+# meaning of parameters in ()
 
-# para.: input_dim, hidden_dim, num_layers 
+# parameters: input_dim, hidden_dim, num_layers 
 lstm = nn.LSTM(3, 3, 2)  
 
 # inputs is 3D tensors: sequence_len, minibatch_size, input_dim
