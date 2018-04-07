@@ -1,6 +1,7 @@
 # switch conda environment (gluon to root ...), install below then we can do it
 conda install nb_conda
 
-# jupyter_notebook丰富的扩展工具，包括cell的执行时间，尺子
+# jupyter_notebook丰富的扩展工具，包括cell的执行时间，尺子 ... 参考如下
+# https://github.com/ipython-contrib/jupyter_contrib_nbextensions/tree/master/src/jupyter_contrib_nbextensions/nbextensions/execute_time
 conda install -c conda-forge jupyter_contrib_nbextensions
 conda install -c conda-forge jupyter_nbextensions_configurator
