@@ -1,0 +1,22 @@
+# 以下为toy代码，调试步骤如下：
+# 1. net(inputs)完成一次前向，假如报错，就重新跑一次net(inputs)的所有代码，然后从net.embedding(inputs)开始逐步执行Block中的forward代码；
+# 2. net(inputs)完成一次前向，假如正确，也可以net.parameter逐个检查参数是否符合预期
+
+import numpy as np
+import mxnet as mx
+from mxnet import autograd, gluon, nd
+from mxnet.gluon import nn, Block
+
+class AFM2(Block):
+    ...
+        
+VOCAB_SIZE, EMB_DIM, ATT_DIM, DROP_PROB = 1000, 30, 20, 0.1
+ctx, learning_rate = mx.gpu(4), 0.002
+# net = NFM(VOCAB_SIZE, EMB_DIM, DROP_PROB)
+net = AFM2(VOCAB_SIZE, EMB_DIM, ATT_DIM, DROP_PROB)
+net.collect_params().initialize(mx.init.Xavier(), ctx=ctx)
+trainer = gluon.Trainer(net.collect_params(), 'adam', {'learning_rate': learning_rate})
+
+batch_size, in_size = 8 ,22
+inputs = nd.arange(22*8, ctx=ctx).reshape((8,22))
+net(inputs)
