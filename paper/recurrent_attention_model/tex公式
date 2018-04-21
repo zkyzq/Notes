@@ -1,0 +1,6 @@
+\[\begin{array}{l}
+{J_\theta } = {E_{\tau \~p(\tau ;\theta )}}[r(\tau )] = \int {r(\tau )} p(\tau ;\theta )d\tau  = \int {d\tau r(\tau )} \int {{\nabla _\theta }} p(\tau ;\theta )d\theta \\
+ = \int {d\tau r(\tau )} \int {p(\tau ;\theta ){\nabla _\theta }} \log p(\tau ;\theta )d\theta  = \int {d\theta } \int {p(\tau ;\theta )r(\tau ){\nabla _\theta }} \log p(\tau ;\theta )d\tau \\
+ = \int {d\theta } {E_{\tau \~p(\tau ;\theta )}}[r(\tau ){\nabla _\theta }\log p(\tau ;\theta )] = {E_{\tau \~p(\tau ;\theta )}}[r(\tau )\log p(\tau ;\theta )]\\
+ \approx \frac{1}{{|batch|}}\sum\limits_{batch} {r(\tau )\log p(\tau ;\theta ) \buildrel \Delta \over = } \frac{1}{{|batch|}}\sum\limits_{batch} {\sum\limits_{t \ge 0} {[r(\tau ) - {b_t}]\log p({\tau _t};\theta )} } 
+\end{array}\]
