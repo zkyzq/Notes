@@ -1,1 +1,20 @@
+# 这里详细列出分解机及变体
+# B:batch_size, D:emb_dim, I:in_size 
+1. LR = sum(w_i*x_i) + b
+2. FM = sum(<v_i,v_j>x_i*x_j) + LR
+3. DeepFM = DNN(emb) + FM
+3. NFM = FC(sum_second)
+   sum_second = 0.5 * (square_sum - sum_square)  # (B, D)
+4. AFM = FC(att_second)
+   second_feat = element_wise_product(v_i,v_j), for all (i,j)
+   cat_second = CONCAT(second_feat)
+   att_second = ATT(cat_second)
+   
+5. DeepFM+NFM = DNN(emb) + FC(sum_second)
+6. DeepFM+NFM = DNN(emb) + DNN(cat_second)
+   各阶特征：标量bias，线性权重，一阶emb，二阶emb
+   二阶emb的处理：sum2scalar，sum2vector，att2vector；cat2matrix，att2matrix
+   新的二阶emb生成方式：operating tensor，Conv
+   
+6. TFM = 
 
