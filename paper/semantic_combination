@@ -1,0 +1,33 @@
+# ---------      1       ----------
+# 这一部分主要是利用递归神经网络的方式，两两组合最后得到整句的语义
+# 学习语义组合p=f(a,b)，即一次递归操作，有以下几种方法
+
+1.线性组合: p=W[a;b],包括sum，weighted average  
+
+2.增加非线性激活函数g（sigmoid ortanh），the nonlinearity allows to express a wider range of functions。
+缺点：it is almost certainly too much to expect a single fixed matrix W to be able to capture the meaning combination effects 
+of all natural language operators. Afterall, inside the function, we have the same linear transformation for all possible 
+pairs of word vectors.  
+
+3. 一个是矩阵，一个是向量：f(extremely strong) = A(extremely) * b(strong)
+缺点：capture linear functions only for pairs of words whereas we would like nonlinear functions to compute compositional 
+meaning representations for multi-word phrases.  
+
+4. 结合123优点，每个item的表达有向量和矩阵两部分(Matrix-Vector)，p=g(W[Ba;Ab])。
+举例：extremely（a可以接近零向量），strong（B可以接近单位矩阵）
+写作手法高：先介绍自己，再说This function builds upon and generalizes several recent models in the literature，引出联系
+递归recursively的方式从2个词扩展的多个词（Semantic Compositionality through Recursive Matrix-Vector Spaces）
+缺点：parameters becomes very large and depends onthe size of the vocabulary  
+
+5. 改进4的缺点，用一个tensor表示combination的所有参数
+两种形式：[a;b]'T[a;b]或者a'Tb
+便于理解可以只看T的一个slice矩阵W，这样每一个slice能够得到结果向量中的一个元素pi，pi = a'Wb = (ab')W，
+这里用(ab')表示向量之间的外积（可以得到一个矩阵），然后两个矩阵对应元素相乘，再加和。这其实就是OPNN
+因此两种形式的区别在于后者只建模向量a,b各维度间的乘积，前者还要建模向量自身内部维度的乘积（写一下外积运算便一目了然）
+interpret each slice of the tensor as capturing a specific type of composition
+注意：tensor交互用到了乘法，之前的都是线性组合。如果考虑到embedding 维度的独立性，可以简化tensor为对角，即element-wise product.
+
+6. 看看Semantic Compositionality through Recursive Matrix-Vector Spaces related work，特别是quantum  logic 
+
+# ---------      2       ----------
+# 如果跳出递归的思路，将整句划分为多个子域，每个域是一个矩阵，域之间进行交互
