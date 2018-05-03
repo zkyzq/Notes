@@ -1,0 +1,12 @@
+输入Q (n, d1)
+输出A (n, d2)
+Attention参数 K, V, 形状分别是(m, d1), (m, d2)
+A = Attention(Q, K, V) = softmax(QK^T/c)V, 其中常数c可取根号d1
+
+Self Attention:
+A = Attention(Q, Q, Q)
+
+MultiHead Attention:
+MultiHead(Q, K, V) = Concat(Head1, Head2, ..., Head_h)
+Head_i(Q, K, V) = Attention(QW_i1, KW_i2, VW_i3)
+W_i1, W_i2, W_i3, 形状分别是(d1, d11), (d1, d11), (d2, d22)
