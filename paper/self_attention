@@ -6,6 +6,11 @@ A = Attention(Q, K, V) = softmax(QK^T/c)V, 其中常数c可取根号d1
 Self Attention:
 A = Attention(Q, Q, Q)
 
+Soft Attention:
+a = Attention(Q, k, Q)
+这里k是一个向量，输出a也是向量。
+输入每一个item的Soft Attention参数不一样，拼接结果，即为Self Attention:
+
 MultiHead Attention:
 MultiHead(Q, K, V) = Concat(Head1, Head2, ..., Head_h)
 Head_i(Q, K, V) = Attention(QW_i1, KW_i2, VW_i3)
