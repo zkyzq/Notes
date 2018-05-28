@@ -9,12 +9,27 @@ out: (batch_size, num_filter, out_height, out_width)
 
 If num_group is larger than 1, denoted by g, then split the input data evenly into g parts along the channel axis, 
 and also evenly split weight along the first dimension. Next compute the convolution on the i-th part of the data with 
-the i-th weight part. The output is obtained by concatenating all the g results.
+the i-th weight part. The output is obtained by concatenating all the g results at axis==1.
 
 这样我们把数据reshape成：
 input: (batch_size, emb_dim, in_size, 1)
-weight: (num_filter*emb_dim, 1, kernel[0], 1)
+weight: (num_filter*emb_dim, 1, kernel0, 1)
 bias: (num_filter*emb_dim,)
-out: (batch_size, num_filter*emb_dim, out_height, 1)
 
-对输出reshape我们需要的形状
+验证代码如下：
+batch_size, emb_dim, in_size, num_filter, kernel0 = 1,3,4,2,2
+x = nd.ones((batch_size, emb_dim, in_size, 1))
+# W = nd.ones((num_filter*emb_dim, 1, kernel0, 1))
+W = nd.arange(num_filter*emb_dim*kernel0).reshape((num_filter*emb_dim, 1, kernel0, 1))
+b = nd.ones((num_filter*emb_dim,))
+# out: (batch_size, num_filter*emb_dim, out_height, 1)
+out = nd.Convolution(data=x, weight=W, bias=b, kernel=W.shape[2:], 
+                num_filter=W.shape[0], num_group=emb_dim)
+# 把输出reshape成我们需要的形状
+out = out.split(axis=1, num_outputs=emb_dim)
+# out: (batch_size, num_filter, out_height, emb_dim)
+out = nd.Concat(*out, dim=3)
+print(out)  # (1, 15, 3, 1)
+
+
+
