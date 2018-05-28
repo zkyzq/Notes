@@ -9,6 +9,17 @@ out: (batch_size, num_filter, out_height, out_width)
 If num_group is larger than 1, denoted by g, then split evenly into g parts: the input data along the channel axis and
 weight along the zeroth dimension. Next compute the convolution on the i-th part of the data with the i-th weight part. 
 The output is obtained by concatenating all the g results at axis==1.
+总结上一段如下，
+正常2D卷积：
+input: (B, C, H, W)        batch,in_channel,height,width
+weight: (Co, C, K0, K1)    out_channel,in_channel,kernel[0],kernel[1]
+bias: (Co,)
+out: (B, Co, Ho, Wo)
+带group的2D卷积：
+input: (B, GC, H, W)        batch,group*in_channel,height,width
+weight: (GCo, C, K0, K1)    group*out_channel,in_channel,kernel[0],kernel[1]
+bias: (GCo,)
+out: (B, GCo, Ho, Wo)
 
 这样我们把数据reshape成：
 input: (batch_size, emb_dim, in_size, 1)
@@ -24,11 +35,9 @@ b = nd.ones((num_filter*emb_dim,))
 # out: (batch_size, num_filter*emb_dim, out_height, 1)
 out = nd.Convolution(data=x, weight=W, bias=b, kernel=W.shape[2:], 
                 num_filter=W.shape[0], num_group=emb_dim)
+
+最后需要做
 # 把输出reshape成我们需要的形状
-out = out.split(axis=1, num_outputs=emb_dim)
-# out: (batch_size, num_filter, out_height, emb_dim)
-out = nd.Concat(*out, dim=3)
-print(out)  # (1, 15, 3, 1)
 
 
 
