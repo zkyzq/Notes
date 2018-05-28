@@ -6,7 +6,6 @@ input: (batch_size, channel, height, width)
 weight: (num_filter, channel, kernel[0], kernel[1])
 bias: (num_filter,)
 out: (batch_size, num_filter, out_height, out_width)
-
 If num_group is larger than 1, denoted by g, then split the input data evenly into g parts along the channel axis, 
 and also evenly split weight along the first dimension. Next compute the convolution on the i-th part of the data with 
 the i-th weight part. The output is obtained by concatenating all the g results at axis==1.
