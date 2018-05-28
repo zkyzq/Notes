@@ -36,8 +36,7 @@ b = nd.ones((num_filter*emb_dim,))
 out = nd.Convolution(data=x, weight=W, bias=b, kernel=W.shape[2:], 
                 num_filter=W.shape[0], num_group=emb_dim)
 
-最后需要做
-# 把输出reshape成我们需要的形状
+最后需要做k max pooling的时候直接对输出的out_height axis做topk
 
 
 
