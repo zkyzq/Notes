@@ -36,7 +36,32 @@ b = nd.ones((num_filter*emb_dim,))
 out = nd.Convolution(data=x, weight=W, bias=b, kernel=W.shape[2:], 
                 num_filter=W.shape[0], num_group=emb_dim)
 
-最后需要做k max pooling的时候直接对输出的out_height axis做topk
+怎么做一个合理的pooling操作(k max pooling)，topk不合理效果不好，更合理的方式是sumpooling
+1. 对输出的out_height axis做topk
+2. sumpooling顾名思义就是对先求和，再根据最大值做k max pooling：
+pooling 输入：(batch, num_filter*emb_dim, in_size, 1)，即卷积输出
+pooling 输出：(batch, num_filter*emb_dim, k, 1)
+分步操作如下：
+def sumpool(self, x):
+    ''' k max pooling indexed by sum
+    input: (batch, num_filter*emb_dim, in_size*in_size/2, 1)
+    ouput: (batch, num_filter*emb_dim, in_size, 1) '''        
+    x = x.split(axis=1, num_outputs=emb_dim)
+    # x: (batch, num_filter, in_size*in_size/2, emb_dim)
+    x = nd.concat(*x, dim=3)       
+    b,c,i,e = x.shape
+    k = in_size
+    idx = x.sum(axis=3).topk(axis=2, k=k).reshape((-1, k))
+    x = x.reshape((-1, e))
+    idx = (idx + nd.expand_dims(nd.arange(b*c) * i, 1)).reshape((-1,))
+    # x: (batch, num_filter, in_size, emb_dim)
+    x = x.take(idx, axis=0).reshape((b, c, k, e))   
+    x = x.transpose(axes=(0,2,3,1))
+    x = x.reshape((b,k,1,c*e))
+    # x: (batch, num_filter*emb_dim, in_size, 1)
+    x = x.transpose(axes=(0,3,1,2))
+    return x
+    
 
 
 
